@@ -27,7 +27,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="text-white font-bold mb-1">Email</h3>
-              <p className="text-text-secondary">contact@gitatelugu.com</p>
+              <p className="text-text-secondary"></p>
             </div>
           </div>
           <div className="flex items-start gap-4">
@@ -36,7 +36,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="text-white font-bold mb-1">Phone</h3>
-              <p className="text-text-secondary">+91 98765 43210</p>
+              <p className="text-text-secondary"></p>
             </div>
           </div>
           <div className="flex items-start gap-4">
@@ -45,7 +45,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="text-white font-bold mb-1">Address</h3>
-              <p className="text-text-secondary">Hyderabad, Telangana, India.</p>
+              <p className="text-text-secondary"></p>
             </div>
           </div>
         </motion.div>
