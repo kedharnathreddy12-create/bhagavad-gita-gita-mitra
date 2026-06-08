@@ -6,6 +6,7 @@ export interface Chapter {
   meaning_telugu: string;
   summary_telugu: string;
   verses_count: number;
+  difficulty_level?: "Beginner" | "Intermediate" | "Advanced";
 }
 
 export interface KeyConcept {

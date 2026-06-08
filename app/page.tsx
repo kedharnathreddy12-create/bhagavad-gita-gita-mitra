@@ -16,8 +16,9 @@ export default function Home() {
     <div className="flex flex-col gap-20 pb-20">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-4">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1605417937402-28dfcb26ba67?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-dark/50 via-primary-dark/80 to-primary-dark" />
+        <div className="absolute inset-0 bg-primary-dark" />
+        <div className="absolute inset-0 bg-[url('/krishna-logo.jpg')] bg-contain bg-no-repeat bg-center opacity-15 sm:opacity-20 mix-blend-screen" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary-dark/30 to-primary-dark" />
         
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <motion.div
@@ -25,9 +26,6 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="text-accent-gold font-medium tracking-widest uppercase text-xs sm:text-sm mb-4 block">
-              కృష్ణ భగవద్గీత
-            </span>
             <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
               సులభమైన <span className="text-gradient">తెలుగులో</span> భగవద్గీత
             </h1>

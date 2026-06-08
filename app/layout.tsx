@@ -30,6 +30,7 @@ export const metadata: Metadata = {
   keywords: ["Bhagavad Gita", "Telugu Gita", "Krishna", "Slokas", "Dharma", "Karma Yoga", "Bhagavad Gita Telugu", "భగవద్గీత"],
   authors: [{ name: "Gita Telugu Team" }],
   creator: "Gita Telugu Team",
+  metadataBase: new URL("https://krishna-bhagavad-gita.vercel.app"),
   openGraph: {
     type: "website",
     locale: "te_IN",
@@ -37,11 +38,20 @@ export const metadata: Metadata = {
     title: "Krishna Bhagavad Gita | సరళమైన తెలుగులో భగవద్గీత",
     description: "భగవద్గీతను అత్యంత సరళమైన తెలుగులో చదవండి. అద్భుతమైన కథలు, శ్లోకాలు, వాటి అర్థాలు మరియు మన నిత్య జీవితానికి సంబంధించిన ఉదాహరణలతో కూడిన పూర్తి జ్ఞాన భాండాగారం.",
     siteName: "Krishna Bhagavad Gita",
+    images: [
+      {
+        url: "/krishna-logo.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Krishna Bhagavad Gita",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Krishna Bhagavad Gita | సరళమైన తెలుగులో భగవద్గీత",
     description: "భగవద్గీతను అత్యంత సరళమైన తెలుగులో చదవండి.",
+    images: ["/krishna-logo.jpg"],
   },
   robots: {
     index: true,

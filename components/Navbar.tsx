@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, BookOpen, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchModal from "./SearchModal";
@@ -25,9 +26,18 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <BookOpen className="text-accent-gold w-6 h-6" />
-              <Link href="/" className="font-bold text-xl tracking-wide text-gradient">
-                Gita Telugu
+              <Link href="/" className="flex items-center gap-2">
+                <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-accent-gold/30">
+                  <Image 
+                    src="/krishna-logo.jpg" 
+                    alt="Krishna Bhagavad Gita Logo" 
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <span className="font-bold text-lg sm:text-xl tracking-wide text-gradient hidden sm:block">
+                  Gita Telugu
+                </span>
               </Link>
             </div>
             

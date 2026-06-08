@@ -16,8 +16,15 @@ export default function ChapterCard({ chapter }: { chapter: Chapter }) {
             Chapter {chapter.id}
             {isCompleted(chapter.id) && <CheckCircle className="w-4 h-4 text-green-400" />}
           </span>
-          <span className="text-text-secondary text-sm flex items-center gap-1">
-            <BookOpen className="w-4 h-4" /> {chapter.verses_count} Verses
+          <span className="text-text-secondary text-sm flex items-center gap-2">
+            {chapter.difficulty_level && (
+              <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${chapter.difficulty_level === 'Beginner' ? 'bg-green-500/10 text-green-400 border-green-500/20' : chapter.difficulty_level === 'Intermediate' ? 'bg-accent-gold/10 text-accent-gold border-accent-gold/20' : 'bg-red-500/10 text-red-400 border-red-500/20'}`}>
+                {chapter.difficulty_level}
+              </span>
+            )}
+            <span className="flex items-center gap-1">
+              <BookOpen className="w-4 h-4" /> {chapter.verses_count} Verses
+            </span>
           </span>
         </div>
         
