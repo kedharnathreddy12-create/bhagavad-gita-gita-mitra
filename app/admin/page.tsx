@@ -31,8 +31,13 @@ export default function AdminLoginPage() {
           </div>
         </div>
         
-        <h1 className="text-2xl font-bold text-center text-white mb-2">Admin Access</h1>
-        <p className="text-center text-text-secondary mb-8">Please enter your credentials</p>
+        <h1 className="text-2xl font-bold text-center text-white mb-6">Administrator Access Only</h1>
+        
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-8">
+          <p className="text-xs sm:text-sm text-red-200/90 text-justify leading-relaxed">
+            This administration panel is restricted exclusively to the authorized maintainer(s) of the website. Access is limited to personnel responsible for website management, content moderation, system configuration, and maintenance activities. Unauthorized access, modification, or use of this section is strictly prohibited.
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
