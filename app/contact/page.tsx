@@ -29,7 +29,7 @@ export default function ContactPage() {
       } else {
         setStatus("error");
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
     }
     

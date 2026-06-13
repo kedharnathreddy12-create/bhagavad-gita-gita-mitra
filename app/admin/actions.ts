@@ -48,7 +48,7 @@ export async function deleteMessageAction(formData: FormData): Promise<void> {
       const fileData = fs.readFileSync(messagesFilePath, 'utf8');
       let messages = JSON.parse(fileData);
       
-      messages = messages.filter((msg: any) => msg.id !== messageId);
+      messages = messages.filter((msg: { id: string }) => msg.id !== messageId);
       
       fs.writeFileSync(messagesFilePath, JSON.stringify(messages, null, 2), 'utf8');
       revalidatePath('/admin/messages');

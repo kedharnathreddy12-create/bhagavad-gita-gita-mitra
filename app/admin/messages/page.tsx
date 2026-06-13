@@ -48,7 +48,7 @@ export default async function AdminMessagesPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {messages.map((msg: any) => (
+          {messages.map((msg: { id: string; name: string; email: string; message: string; date: string }) => (
             <div key={msg.id} className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/5 relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-1 h-full bg-accent-gold" />
               
