@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sunrise, Share2, ArrowRight } from "lucide-react";
+import { Sunrise, Share2, ArrowRight, RefreshCw } from "lucide-react";
 import { getAllChapterExplanations } from "@/data/explanations";
 import { useEffect, useState } from "react";
 import { ChapterExplanation } from "@/types";
@@ -11,8 +11,10 @@ export default function DailyLessonPage() {
   const [dailyChapter, setDailyChapter] = useState<ChapterExplanation | null>(null);
   const [dailyLesson, setDailyLesson] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
+    setIsLoading(true);
     getAllChapterExplanations().then(explanations => {
       if (explanations.length === 0) {
         setIsLoading(false);
@@ -20,7 +22,8 @@ export default function DailyLessonPage() {
       }
       
       const today = new Date();
-      const dateString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      // Include offset in the hash string to generate a different lesson
+      const dateString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}-${offset}`;
       
       let hash = 0;
       for (let i = 0; i < dateString.length; i++) {
@@ -31,16 +34,16 @@ export default function DailyLessonPage() {
       const index = Math.abs(hash) % explanations.length;
       const chapter = explanations[index];
       
-      // Pick a random practical lesson based on the day
+      // Pick a random practical lesson based on the day and offset
       const lessonIndex = Math.abs(hash) % chapter.practical_life_lessons.length;
       
       setDailyChapter(chapter);
       setDailyLesson(chapter.practical_life_lessons[lessonIndex] || chapter.krishnas_core_message);
       setIsLoading(false);
     });
-  }, []);
+  }, [offset]);
 
-  if (isLoading) {
+  if (isLoading && !dailyChapter) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
         <div className="flex justify-center py-12">
@@ -71,6 +74,7 @@ export default function DailyLessonPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-16 text-center">
       <motion.div
+        key={offset} // Re-animate when offset changes
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         className="glass-panel p-10 rounded-3xl border border-accent-gold/20 relative overflow-hidden"
@@ -91,11 +95,14 @@ export default function DailyLessonPage() {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
-          <button onClick={handleShare} className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-4 rounded-full flex items-center gap-2 transition-colors w-full sm:w-auto justify-center">
+          <button onClick={() => setOffset(o => o + 1)} className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 py-4 rounded-full flex items-center gap-2 transition-colors w-full sm:w-auto justify-center">
+            <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} /> మరొకటి (Next)
+          </button>
+          <button onClick={handleShare} className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 py-4 rounded-full flex items-center gap-2 transition-colors w-full sm:w-auto justify-center">
             <Share2 className="w-5 h-5" /> పంచుకోండి
           </button>
-          <Link href={`/chapters/${dailyChapter.id}`} className="bg-gradient-to-r from-accent-gold to-accent-saffron text-primary-dark font-bold px-8 py-4 rounded-full flex items-center gap-2 hover:scale-105 transition-transform w-full sm:w-auto justify-center">
-            పూర్తి అధ్యాయం చదవండి <ArrowRight className="w-5 h-5" />
+          <Link href={`/chapters/${dailyChapter.id}`} className="bg-gradient-to-r from-accent-gold to-accent-saffron text-primary-dark font-bold px-6 py-4 rounded-full flex items-center gap-2 hover:scale-105 transition-transform w-full sm:w-auto justify-center">
+            అధ్యాయం <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </motion.div>
