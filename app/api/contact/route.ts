@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import fs from 'fs';
+import path from 'path';
 
 export async function POST(req: Request) {
   try {
@@ -9,35 +10,37 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Configure your SMTP transporter
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // Use App Password for Gmail
-      },
-    });
+    const messagesFilePath = path.join(process.cwd(), 'data', 'messages.json');
+    
+    // Read existing messages or create empty array
+    let messages = [];
+    if (fs.existsSync(messagesFilePath)) {
+      const fileData = fs.readFileSync(messagesFilePath, 'utf8');
+      try {
+        messages = JSON.parse(fileData);
+      } catch (e) {
+        messages = [];
+      }
+    }
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: 'dwarakatej22@gmail.com',
-      replyTo: email,
-      subject: `New Contact Form Message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-      html: `
-        <h3>New Contact Message from Gita Telugu</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+    // Add new message
+    const newMessage = {
+      id: Date.now().toString(),
+      name,
+      email,
+      message,
+      date: new Date().toISOString(),
+      read: false
     };
 
-    await transporter.sendMail(mailOptions);
+    messages.unshift(newMessage); // Add to the beginning of the array
 
-    return NextResponse.json({ success: true, message: 'Email sent successfully' }, { status: 200 });
+    // Save back to file
+    fs.writeFileSync(messagesFilePath, JSON.stringify(messages, null, 2), 'utf8');
+
+    return NextResponse.json({ success: true, message: 'Message saved successfully' }, { status: 200 });
   } catch (error) {
-    console.error('Error sending email:', error);
-    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    console.error('Error saving message:', error);
+    return NextResponse.json({ error: 'Failed to save message' }, { status: 500 });
   }
 }

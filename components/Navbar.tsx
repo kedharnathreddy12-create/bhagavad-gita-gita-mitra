@@ -18,6 +18,7 @@ export default function Navbar() {
     { name: "Daily Lesson", href: "/daily-lesson" },
     { name: "About Gita", href: "/about-gita" },
     { name: "Stories", href: "/stories/krishna" },
+    { name: "Admin", href: "/admin" },
   ];
 
   return (
