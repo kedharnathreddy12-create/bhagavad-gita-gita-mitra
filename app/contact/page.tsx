@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 
 export default function ContactPage() {
   return (
@@ -27,16 +27,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="text-white font-bold mb-1">Email</h3>
-              <p className="text-text-secondary"></p>
-            </div>
-          </div>
-          <div className="flex items-start gap-4">
-            <div className="bg-accent-gold/20 p-3 rounded-full">
-              <Phone className="w-6 h-6 text-accent-gold" />
-            </div>
-            <div>
-              <h3 className="text-white font-bold mb-1">Phone</h3>
-              <p className="text-text-secondary"></p>
+              <p className="text-text-secondary">dwarakatej22@gmail.com</p>
             </div>
           </div>
           <div className="flex items-start gap-4">
@@ -45,7 +36,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="text-white font-bold mb-1">Address</h3>
-              <p className="text-text-secondary"></p>
+              <p className="text-text-secondary">Andhrapradesh, India</p>
             </div>
           </div>
         </motion.div>
