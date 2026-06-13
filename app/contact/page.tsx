@@ -83,7 +83,7 @@ export default function ContactPage() {
           onSubmit={handleSubmit}
         >
           <div>
-            <label className="block text-text-secondary mb-2 text-sm">పేరు (Name)</label>
+            <label className="block text-text-secondary mb-2 text-sm">పేరు</label>
             <input 
               type="text" 
               required
@@ -93,7 +93,7 @@ export default function ContactPage() {
             />
           </div>
           <div>
-            <label className="block text-text-secondary mb-2 text-sm">ఈమెయిల్ (Email)</label>
+            <label className="block text-text-secondary mb-2 text-sm">ఈమెయిల్</label>
             <input 
               type="email" 
               required
@@ -103,7 +103,7 @@ export default function ContactPage() {
             />
           </div>
           <div>
-            <label className="block text-text-secondary mb-2 text-sm">సందేశం (Message)</label>
+            <label className="block text-text-secondary mb-2 text-sm">సందేశం</label>
             <textarea 
               rows={4} 
               required
@@ -115,13 +115,13 @@ export default function ContactPage() {
           
           {status === "success" && (
             <div className="p-4 bg-green-500/20 border border-green-500/50 rounded-xl text-green-200 text-sm text-center">
-              సందేశం విజయవంతంగా పంపబడింది! (Message sent successfully!)
+              సందేశం విజయవంతంగా పంపబడింది!
             </div>
           )}
           
           {status === "error" && (
             <div className="p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200 text-sm text-center">
-              ఏదో తప్పు జరిగింది. దయచేసి మళ్ళీ ప్రయత్నించండి. (Something went wrong. Please try again.)
+              ఏదో తప్పు జరిగింది. దయచేసి మళ్ళీ ప్రయత్నించండి.
             </div>
           )}
 
@@ -135,7 +135,7 @@ export default function ContactPage() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-            ) : "పంపండి (Send)"}
+            ) : "పంపండి"}
           </button>
         </motion.form>
       </div>

@@ -8,13 +8,13 @@ import { logoutAction, deleteMessageAction } from '../actions';
 export default async function AdminMessagesPage() {
   const cookieStore = await cookies();
   const auth = cookieStore.get('admin_auth');
-  
+
   if (!auth?.value) {
     redirect('/admin');
   }
 
   const messagesFilePath = path.join(process.cwd(), 'data', 'messages.json');
-  
+
   let messages = [];
   try {
     if (fs.existsSync(messagesFilePath)) {
@@ -32,7 +32,7 @@ export default async function AdminMessagesPage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Messages (సందేశాలు)</h1>
           <p className="text-base sm:text-lg text-text-secondary">Messages received from the contact form.</p>
         </div>
-        
+
         <form action={logoutAction}>
           <button className="bg-red-500/20 text-red-300 hover:bg-red-500/30 px-6 py-3 rounded-xl flex items-center gap-2 transition-colors border border-red-500/30">
             <LogOut className="w-5 h-5" /> Logout
@@ -51,7 +51,7 @@ export default async function AdminMessagesPage() {
           {messages.map((msg: { id: string; name: string; email: string; message: string; date: string }) => (
             <div key={msg.id} className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/5 relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-1 h-full bg-accent-gold" />
-              
+
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -62,7 +62,7 @@ export default async function AdminMessagesPage() {
                     <Mail className="w-4 h-4" /> {msg.email}
                   </a>
                 </div>
-                
+
                 <div className="flex flex-col items-end gap-3">
                   <div className="flex items-center gap-2 text-text-secondary text-sm">
                     <Calendar className="w-4 h-4" />
@@ -71,21 +71,21 @@ export default async function AdminMessagesPage() {
                       timeStyle: 'short'
                     })}
                   </div>
-                  
+
                   <form action={deleteMessageAction}>
                     <input type="hidden" name="messageId" value={msg.id} />
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       className="text-red-400/70 hover:text-red-400 bg-red-400/10 hover:bg-red-400/20 p-2 rounded-lg transition-all sm:opacity-0 sm:group-hover:opacity-100 flex items-center gap-2 text-sm"
                       title="Delete message"
                     >
-                      <Trash2 className="w-4 h-4" /> 
+                      <Trash2 className="w-4 h-4" />
                       <span className="sm:hidden">Delete</span>
                     </button>
                   </form>
                 </div>
               </div>
-              
+
               <div className="bg-white/5 p-6 rounded-2xl">
                 <p className="text-white whitespace-pre-wrap leading-relaxed">
                   {msg.message}
