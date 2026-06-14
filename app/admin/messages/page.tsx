@@ -1,9 +1,10 @@
-import fs from 'fs';
-import path from 'path';
 import { Mail, Calendar, User, LogOut, Trash2 } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { logoutAction, deleteMessageAction } from '../actions';
+import { supabase } from '@/lib/supabase';
+
+export const dynamic = 'force-dynamic';
 
 export default async function AdminMessagesPage() {
   const cookieStore = await cookies();
@@ -13,17 +14,16 @@ export default async function AdminMessagesPage() {
     redirect('/admin');
   }
 
-  const messagesFilePath = path.join(process.cwd(), 'data', 'messages.json');
+  const { data: messagesData, error } = await supabase
+    .from('messages')
+    .select('*')
+    .order('date', { ascending: false });
 
-  let messages = [];
-  try {
-    if (fs.existsSync(messagesFilePath)) {
-      const fileData = fs.readFileSync(messagesFilePath, 'utf8');
-      messages = JSON.parse(fileData);
-    }
-  } catch (error) {
-    console.error("Error reading messages:", error);
+  if (error) {
+    console.error("Error fetching messages from Supabase:", error);
   }
+
+  const messages = messagesData || [];
 
   return (
     <div className="max-w-4xl xl:max-w-6xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 py-12 sm:py-16 xl:py-24">

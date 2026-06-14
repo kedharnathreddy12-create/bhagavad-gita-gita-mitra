@@ -3,8 +3,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import fs from 'fs';
-import path from 'path';
 
 export async function loginAction(formData: FormData) {
   const username = formData.get('username');
@@ -41,18 +39,18 @@ export async function deleteMessageAction(formData: FormData): Promise<void> {
   const messageId = formData.get('messageId') as string;
   if (!messageId) return;
 
-  const messagesFilePath = path.join(process.cwd(), 'data', 'messages.json');
-  
   try {
-    if (fs.existsSync(messagesFilePath)) {
-      const fileData = fs.readFileSync(messagesFilePath, 'utf8');
-      let messages = JSON.parse(fileData);
-      
-      messages = messages.filter((msg: { id: string }) => msg.id !== messageId);
-      
-      fs.writeFileSync(messagesFilePath, JSON.stringify(messages, null, 2), 'utf8');
-      revalidatePath('/admin/messages');
+    const { supabase } = await import('@/lib/supabase');
+    const { error } = await supabase
+      .from('messages')
+      .delete()
+      .eq('id', messageId);
+
+    if (error) {
+      throw error;
     }
+    
+    revalidatePath('/admin/messages');
   } catch (error) {
     console.error("Error deleting message:", error);
     throw new Error('Failed to delete message');
