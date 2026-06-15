@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Outfit, Inter, Noto_Sans_Telugu } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
+import CanonicalUrl from "@/components/CanonicalUrl";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -57,6 +59,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "i2viGYya5KHbGGHGaHMIjkJLIlicIlceB9sYCuFAQBM",
+  },
 };
 
 export default function RootLayout({
@@ -66,10 +71,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="te">
+      <head>
+        <CanonicalUrl />
+      </head>
       <body 
         className={`${outfit.variable} ${inter.variable} ${notoSansTelugu.variable} antialiased bg-primary-dark text-text-primary min-h-screen flex flex-col`}
         style={{ fontFamily: 'var(--font-telugu), var(--font-outfit), sans-serif' }}
       >
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+        />
         <Navbar />
         <main className="flex-1 pt-16">
           {children}
