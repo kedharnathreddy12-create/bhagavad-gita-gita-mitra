@@ -73,17 +73,17 @@ export default function RootLayout({
     <html lang="te">
       <head>
         <CanonicalUrl />
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4327503378681750"
+        />
       </head>
       <body 
         className={`${outfit.variable} ${inter.variable} ${notoSansTelugu.variable} antialiased bg-primary-dark text-text-primary min-h-screen flex flex-col`}
         style={{ fontFamily: 'var(--font-telugu), var(--font-outfit), sans-serif' }}
       >
-        <Script
-          id="adsbygoogle-init"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
-        />
         <Navbar />
         <main className="flex-1 pt-16">
           {children}
