@@ -25,34 +25,34 @@ const notoSansTelugu = Noto_Sans_Telugu({
 
 export const metadata: Metadata = {
   title: {
-    default: "Krishna Bhagavad Gita | సరళమైన తెలుగులో భగవద్గీత",
-    template: "%s | Krishna Bhagavad Gita",
+    default: "GitaMitra | Bhagavad Gita in Telugu",
+    template: "%s | GitaMitra",
   },
-  description: "భగవద్గీతను అత్యంత సరళమైన తెలుగులో చదవండి. అద్భుతమైన కథలు, శ్లోకాలు, వాటి అర్థాలు మరియు మన నిత్య జీవితానికి సంబంధించిన ఉదాహరణలతో కూడిన పూర్తి జ్ఞాన భాండాగారం.",
+  description: "Read Bhagavad Gita in Telugu with chapter-wise reading, verses, meanings, and spiritual guidance.",
   keywords: ["Bhagavad Gita", "Telugu Gita", "Krishna", "Slokas", "Dharma", "Karma Yoga", "Bhagavad Gita Telugu", "భగవద్గీత"],
   authors: [{ name: "Gita Telugu Team" }],
   creator: "Gita Telugu Team",
-  metadataBase: new URL("https://krishna-bhagavad-gita.vercel.app"),
+  metadataBase: new URL("https://gitamitra.vercel.app"),
   openGraph: {
     type: "website",
     locale: "te_IN",
-    url: "https://krishna-bhagavad-gita.vercel.app",
-    title: "Krishna Bhagavad Gita | సరళమైన తెలుగులో భగవద్గీత",
-    description: "భగవద్గీతను అత్యంత సరళమైన తెలుగులో చదవండి. అద్భుతమైన కథలు, శ్లోకాలు, వాటి అర్థాలు మరియు మన నిత్య జీవితానికి సంబంధించిన ఉదాహరణలతో కూడిన పూర్తి జ్ఞాన భాండాగారం.",
-    siteName: "Krishna Bhagavad Gita",
+    url: "https://gitamitra.vercel.app",
+    title: "GitaMitra",
+    description: "Read Bhagavad Gita in Telugu with chapter-wise reading, verses, meanings, and spiritual guidance.",
+    siteName: "GitaMitra",
     images: [
       {
         url: "/krishna-logo.jpg",
         width: 1200,
         height: 630,
-        alt: "Krishna Bhagavad Gita",
+        alt: "GitaMitra",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Krishna Bhagavad Gita | సరళమైన తెలుగులో భగవద్గీత",
-    description: "భగవద్గీతను అత్యంత సరళమైన తెలుగులో చదవండి.",
+    title: "GitaMitra | Bhagavad Gita in Telugu",
+    description: "Read Bhagavad Gita in Telugu with chapter-wise reading, verses, meanings, and spiritual guidance.",
     images: ["/krishna-logo.jpg"],
   },
   robots: {

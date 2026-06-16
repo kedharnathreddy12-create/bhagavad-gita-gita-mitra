@@ -35,7 +35,7 @@ export default function Navbar() {
                     className="object-cover"
                   />
                 </div>
-                <span className="font-bold text-lg sm:text-xl tracking-wide text-gradient hidden sm:block">
+                <span className="font-bold text-lg sm:text-xl tracking-wide text-gradient">
                   Gita Telugu
                 </span>
               </Link>
