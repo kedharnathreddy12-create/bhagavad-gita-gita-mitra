@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import CanonicalUrl from "@/components/CanonicalUrl";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -90,6 +91,7 @@ export default function RootLayout({
         </main>
         <Chatbot />
         <Footer />
+        <SpeedInsights />
       </body>
     </html>
   );
