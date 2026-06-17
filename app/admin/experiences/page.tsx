@@ -24,7 +24,7 @@ export default async function AdminExperiencesPage() {
   }
 
   const experiences = (messagesData || []).filter(
-    (msg: any) => msg.message.startsWith('[EXPERIENCE] ')
+    (msg: { message: string }) => msg.message.startsWith('[EXPERIENCE] ')
   );
 
   return (

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BookOpen } from "lucide-react";
 import { useState } from "react";
 
 export default function ExperiencePage() {

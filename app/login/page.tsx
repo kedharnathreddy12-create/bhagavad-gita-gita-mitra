@@ -5,14 +5,12 @@ import { User, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,12 +30,13 @@ export default function LoginPage() {
       setStatus("success");
       // Force reload to update navbar state properly
       window.location.href = "/my-learning";
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      if (err.message === "Email not confirmed") {
+      const errorMessage = err instanceof Error ? err.message : "లాగిన్ విఫలమైంది (Login failed)";
+      if (errorMessage === "Email not confirmed") {
         setErrorMsg("దయచేసి మీ ఇమెయిల్ ని నిర్ధారించండి (Please confirm your email address by checking your inbox).");
       } else {
-        setErrorMsg(err.message || "లాగిన్ విఫలమైంది (Login failed)");
+        setErrorMsg(errorMessage);
       }
       setStatus("error");
     }

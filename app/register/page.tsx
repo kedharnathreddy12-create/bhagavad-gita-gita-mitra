@@ -5,14 +5,12 @@ import { UserPlus, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const router = useRouter();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,9 +40,9 @@ export default function RegisterPage() {
         window.location.href = "/my-learning";
       }, 1500);
       
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(err.message || "Registration failed");
+      setErrorMsg(err instanceof Error ? err.message : "Registration failed");
       setStatus("error");
     }
   };
