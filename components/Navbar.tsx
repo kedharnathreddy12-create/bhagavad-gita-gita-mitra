@@ -1,15 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, Settings, LogOut, User as UserIcon } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchModal from "./SearchModal";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+    };
+    checkUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.href = "/";
+  };
 
   const links = [
     { name: "Home", href: "/" },
@@ -18,6 +43,7 @@ export default function Navbar() {
     { name: "Daily Lesson", href: "/daily-lesson" },
     { name: "About Gita", href: "/about-gita" },
     { name: "Stories", href: "/stories/krishna" },
+    { name: "మీ అనుభవం", href: "/experience" },
   ];
 
   return (
@@ -30,13 +56,13 @@ export default function Navbar() {
                 <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-accent-gold/30">
                   <Image 
                     src="/krishna-logo.jpg" 
-                    alt="Krishna Bhagavad Gita Logo" 
+                    alt="GitaMitra Logo" 
                     fill
                     className="object-cover"
                   />
                 </div>
                 <span className="font-bold text-lg sm:text-xl tracking-wide text-gradient">
-                  Gita Telugu
+                  GitaMitra
                 </span>
               </Link>
             </div>
@@ -64,6 +90,34 @@ export default function Navbar() {
               >
                 <Search className="w-5 h-5" />
               </button>
+
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="text-text-secondary hover:text-accent-gold transition-colors p-1"
+                  aria-label="Logout"
+                  title="Logout"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-text-secondary hover:text-accent-gold transition-colors p-1"
+                  aria-label="Login"
+                  title="Login"
+                >
+                  <UserIcon className="w-5 h-5" />
+                </Link>
+              )}
+
+              <Link
+                href="/admin"
+                className="text-text-secondary hover:text-accent-gold transition-colors p-1 hidden sm:block"
+                aria-label="Admin Panel"
+              >
+                <Settings className="w-5 h-5" />
+              </Link>
 
               {/* Mobile Menu Button */}
               <div className="md:hidden">

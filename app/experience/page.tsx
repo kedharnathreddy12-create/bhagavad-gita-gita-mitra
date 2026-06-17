@@ -1,23 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { useState } from "react";
 
-export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: "", contactInfo: "", message: "" });
+export default function ExperiencePage() {
+  const [formData, setFormData] = useState({ name: "", contactInfo: "", experience: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "invalid_contact">("idle");
 
   const validateContactInfo = (info: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Allow digits, spaces, plus sign, dashes, at least 10 digits total
     const phoneRegex = /^[+]?[\d\s-]{10,}$/;
     return emailRegex.test(info) || phoneRegex.test(info);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateContactInfo(formData.contactInfo)) {
       setStatus("invalid_contact");
       setTimeout(() => setStatus("idle"), 5000);
@@ -27,7 +26,7 @@ export default function ContactPage() {
     setStatus("submitting");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/experience", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +38,7 @@ export default function ContactPage() {
       const result = await response.json();
       if (response.ok && result.success) {
         setStatus("success");
-        setFormData({ name: "", contactInfo: "", message: "" });
+        setFormData({ name: "", contactInfo: "", experience: "" });
       } else {
         setStatus("error");
       }
@@ -47,89 +46,67 @@ export default function ContactPage() {
       setStatus("error");
     }
     
-    // Reset status after a few seconds
     setTimeout(() => {
       setStatus("idle");
     }, 5000);
   };
 
   return (
-    <div className="max-w-4xl xl:max-w-6xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 py-12 sm:py-16 xl:py-24">
+    <div className="max-w-4xl xl:max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 xl:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-12"
       >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">మమ్మల్ని సంప్రదించండి</h1>
-        <p className="text-base sm:text-lg text-text-secondary">మీకు ఏవైనా ప్రశ్నలు ఉంటే మాకు తెలియజేయండి.</p>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+          <span className="text-accent-gold">గీతామిత్ర</span> చదివిన తర్వాత మీ అభిప్రాయాన్ని తెలియజేయండి
+        </h1>
+        <p className="text-base sm:text-lg text-text-secondary max-w-2xl mx-auto">
+          భగవద్గీత పఠనం మీ జీవితంలో ఎలాంటి మార్పులు తీసుకువచ్చిందో మాతో పంచుకోండి.
+        </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="glass-panel p-6 sm:p-8 xl:p-12 rounded-3xl border border-white/5 space-y-8"
-        >
-          <div className="flex items-start gap-4">
-            <div className="bg-accent-gold/20 p-3 rounded-full">
-              <Mail className="w-6 h-6 text-accent-gold" />
-            </div>
-            <div>
-              <h3 className="text-white font-bold mb-1">Email</h3>
-              <p className="text-text-secondary">dwarakatej22@gmail.com</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-4">
-            <div className="bg-accent-gold/20 p-3 rounded-full">
-              <MapPin className="w-6 h-6 text-accent-gold" />
-            </div>
-            <div>
-              <h3 className="text-white font-bold mb-1">Address</h3>
-              <p className="text-text-secondary">Andhrapradesh, India</p>
-            </div>
-          </div>
-        </motion.div>
-
+      <div className="max-w-2xl mx-auto">
         <motion.form 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           className="glass-panel p-6 sm:p-8 xl:p-12 rounded-3xl border border-white/5 space-y-4 sm:space-y-6"
           onSubmit={handleSubmit}
         >
           <div>
-            <label className="block text-text-secondary mb-2 text-sm">పేరు</label>
+            <label className="block text-white mb-2 text-sm">పేరు</label>
             <input 
               type="text" 
               required
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-gold transition-colors" 
+              className="w-full bg-[#131B2A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-gold transition-colors" 
             />
           </div>
           <div>
-            <label className="block text-text-secondary mb-2 text-sm">ఇమెయిల్ లేదా ఫోన్ నంబర్</label>
+            <label className="block text-white mb-2 text-sm">ఇమెయిల్ లేదా ఫోన్ నంబర్</label>
             <input 
               type="text" 
               required
               value={formData.contactInfo}
               onChange={(e) => setFormData({...formData, contactInfo: e.target.value})}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-gold transition-colors" 
+              className="w-full bg-[#131B2A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-gold transition-colors" 
             />
           </div>
           <div>
-            <label className="block text-text-secondary mb-2 text-sm">సందేశం</label>
+            <label className="block text-white mb-2 text-sm">సందేశం</label>
             <textarea 
-              rows={4} 
+              rows={6} 
               required
-              value={formData.message}
-              onChange={(e) => setFormData({...formData, message: e.target.value})}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-gold transition-colors"
+              value={formData.experience}
+              onChange={(e) => setFormData({...formData, experience: e.target.value})}
+              className="w-full bg-[#131B2A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-gold transition-colors resize-y"
             ></textarea>
           </div>
           
           {status === "success" && (
             <div className="p-4 bg-green-500/20 border border-green-500/50 rounded-xl text-green-200 text-sm text-center">
-              సందేశం విజయవంతంగా పంపబడింది!
+              మీ అనుభవం విజయవంతంగా సమర్పించబడింది. ధన్యవాదాలు!
             </div>
           )}
           
@@ -148,7 +125,7 @@ export default function ContactPage() {
           <button 
             type="submit" 
             disabled={status === "submitting"}
-            className="w-full bg-accent-gold text-primary-dark font-bold py-3 rounded-xl hover:bg-accent-saffron transition-colors disabled:opacity-70 flex justify-center items-center"
+            className="w-full bg-accent-gold text-primary-dark font-bold py-4 rounded-xl hover:bg-accent-saffron transition-colors disabled:opacity-70 flex justify-center items-center mt-4"
           >
             {status === "submitting" ? (
               <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

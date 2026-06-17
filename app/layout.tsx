@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   },
   description: "Read Bhagavad Gita in Telugu with chapter-wise reading, verses, meanings, and spiritual guidance.",
   keywords: ["Bhagavad Gita", "Telugu Gita", "Krishna", "Slokas", "Dharma", "Karma Yoga", "Bhagavad Gita Telugu", "భగవద్గీత"],
-  authors: [{ name: "Gita Telugu Team" }],
-  creator: "Gita Telugu Team",
+  authors: [{ name: "GitaMitra Team" }],
+  creator: "GitaMitra Team",
   metadataBase: new URL("https://gitamitra.vercel.app"),
   openGraph: {
     type: "website",

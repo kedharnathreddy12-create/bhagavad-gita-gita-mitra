@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Krishna Bhagavad Gita',
-    short_name: 'Gita Telugu',
+    name: 'GitaMitra',
+    short_name: 'GitaMitra',
     description: 'Learn Bhagavad Gita in simple Telugu language with transliteration, word meanings, and modern life examples.',
     start_url: '/',
     display: 'standalone',

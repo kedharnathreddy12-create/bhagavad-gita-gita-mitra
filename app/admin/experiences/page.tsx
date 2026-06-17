@@ -1,4 +1,4 @@
-import { Mail, Calendar, User, LogOut, Trash2 } from 'lucide-react';
+import { Calendar, User, LogOut, Trash2, BookOpen } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { logoutAction, deleteMessageAction } from '../actions';
@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminMessagesPage() {
+export default async function AdminExperiencesPage() {
   const cookieStore = await cookies();
   const auth = cookieStore.get('admin_auth');
 
@@ -23,8 +23,8 @@ export default async function AdminMessagesPage() {
     console.error("Error fetching messages from Supabase:", error);
   }
 
-  const messages = (messagesData || []).filter(
-    (msg: any) => !msg.message.startsWith('[EXPERIENCE] ')
+  const experiences = (messagesData || []).filter(
+    (msg: any) => msg.message.startsWith('[EXPERIENCE] ')
   );
 
   return (
@@ -32,11 +32,11 @@ export default async function AdminMessagesPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
         <div>
           <div className="flex gap-4 mb-6">
-            <a href="/admin/messages" className="px-4 py-2 bg-accent-gold text-primary-dark font-bold rounded-xl">Contact Messages</a>
-            <a href="/admin/experiences" className="px-4 py-2 border border-white/20 text-white hover:bg-white/5 rounded-xl transition-colors">User Experiences</a>
+            <a href="/admin/messages" className="px-4 py-2 border border-white/20 text-white hover:bg-white/5 rounded-xl transition-colors">Contact Messages</a>
+            <a href="/admin/experiences" className="px-4 py-2 bg-accent-gold text-primary-dark font-bold rounded-xl">User Experiences</a>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Messages (సందేశాలు)</h1>
-          <p className="text-base sm:text-lg text-text-secondary">Messages received from the contact form.</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">User Experiences (మీ అనుభవాలు)</h1>
+          <p className="text-base sm:text-lg text-text-secondary">Feedback and experiences submitted by readers.</p>
         </div>
 
         <form action={logoutAction}>
@@ -46,15 +46,16 @@ export default async function AdminMessagesPage() {
         </form>
       </div>
 
-      {messages.length === 0 ? (
+      {experiences.length === 0 ? (
         <div className="glass-panel p-12 rounded-3xl border border-white/5 text-center">
-          <Mail className="w-16 h-16 text-text-secondary mx-auto mb-4 opacity-50" />
-          <h3 className="text-xl text-white font-medium">No messages yet</h3>
-          <p className="text-text-secondary mt-2">When someone fills out the contact form, their message will appear here.</p>
+          <BookOpen className="w-16 h-16 text-text-secondary mx-auto mb-4 opacity-50" />
+          <h3 className="text-xl text-white font-medium">No experiences shared yet</h3>
+          <p className="text-text-secondary mt-2">When someone shares their experience, it will appear here.</p>
         </div>
       ) : (
         <div className="space-y-6">
-          {messages.map((msg: { id: string; name: string; email: string; message: string; date: string }) => {
+          {experiences.map((msg: { id: string; name: string; email: string; message: string; date: string }) => {
+            const cleanMessage = msg.message.replace('[EXPERIENCE] ', '');
             const contactInfo = msg.email;
             
             return (
@@ -79,32 +80,32 @@ export default async function AdminMessagesPage() {
                     )}
                   </div>
 
-                <div className="flex flex-col items-end gap-3">
-                  <div className="flex items-center gap-2 text-text-secondary text-sm">
-                    <Calendar className="w-4 h-4" />
-                    {new Date(msg.date).toLocaleString('en-IN', {
-                      dateStyle: 'medium',
-                      timeStyle: 'short'
-                    })}
-                  </div>
+                  <div className="flex flex-col items-end gap-3">
+                    <div className="flex items-center gap-2 text-text-secondary text-sm">
+                      <Calendar className="w-4 h-4" />
+                      {new Date(msg.date).toLocaleString('en-IN', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
+                      })}
+                    </div>
 
-                  <form action={deleteMessageAction}>
-                    <input type="hidden" name="messageId" value={msg.id} />
-                    <button
-                      type="submit"
-                      className="text-red-400/70 hover:text-red-400 bg-red-400/10 hover:bg-red-400/20 p-2 rounded-lg transition-all sm:opacity-0 sm:group-hover:opacity-100 flex items-center gap-2 text-sm"
-                      title="Delete message"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      <span className="sm:hidden">Delete</span>
-                    </button>
-                  </form>
+                    <form action={deleteMessageAction}>
+                      <input type="hidden" name="messageId" value={msg.id} />
+                      <button
+                        type="submit"
+                        className="text-red-400/70 hover:text-red-400 bg-red-400/10 hover:bg-red-400/20 p-2 rounded-lg transition-all sm:opacity-0 sm:group-hover:opacity-100 flex items-center gap-2 text-sm"
+                        title="Delete experience"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span className="sm:hidden">Delete</span>
+                      </button>
+                    </form>
+                  </div>
                 </div>
-              </div>
 
                 <div className="bg-white/5 p-6 rounded-2xl">
                   <p className="text-white whitespace-pre-wrap leading-relaxed">
-                    {msg.message}
+                    {cleanMessage}
                   </p>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 interface LearningState {
   completedChapters: number[];
@@ -21,27 +22,29 @@ const DEFAULT_STATE: LearningState = {
 export function useLearning() {
   const [state, setState] = useState<LearningState>(DEFAULT_STATE);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("gita-learning-state");
-    if (saved) {
-      try {
-        const parsed: LearningState = JSON.parse(saved);
+    const fetchProgress = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session?.user) {
+        setIsAuthenticated(true);
+        const metadata = session.user.user_metadata;
+        const progress: LearningState = metadata?.learning_progress || DEFAULT_STATE;
         
-        // Streak Logic
+        // Streak Logic Verification
         const todayStr = new Date().toDateString();
-        let currentStreak = parsed.readingStreak;
-        const bestStreak = parsed.bestStreak;
+        let currentStreak = progress.readingStreak || 0;
+        const bestStreak = progress.bestStreak || 0;
         
-        if (parsed.lastActiveDate) {
-          const lastActive = new Date(parsed.lastActiveDate);
+        if (progress.lastActiveDate && progress.lastActiveDate !== todayStr) {
+          const lastActive = new Date(progress.lastActiveDate);
           const today = new Date(todayStr);
           const diffTime = Math.abs(today.getTime() - lastActive.getTime());
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
-          if (diffDays === 1) {
-            // Keep current streak, it will increment on markViewed if not already done today
-          } else if (diffDays > 1) {
+          if (diffDays > 1) {
             // Missed a day, streak broken
             currentStreak = 0;
           }
@@ -49,32 +52,46 @@ export function useLearning() {
         
         const finalState = {
           ...DEFAULT_STATE,
-          ...parsed,
+          ...progress,
           readingStreak: currentStreak,
           bestStreak: Math.max(bestStreak, currentStreak),
         };
         
         setState(finalState);
-        localStorage.setItem("gita-learning-state", JSON.stringify(finalState));
-      } catch (e) {
-        console.error("Failed to parse learning state", e);
+        
+        // If streak was corrected, silently update
+        if (currentStreak !== progress.readingStreak) {
+           supabase.auth.updateUser({ data: { learning_progress: finalState } });
+        }
+      } else {
+        setIsAuthenticated(false);
       }
-    }
-    setIsLoaded(true);
+      setIsLoaded(true);
+    };
+
+    fetchProgress();
   }, []);
 
+  const syncToSupabase = async (updatedState: LearningState) => {
+    if (isAuthenticated) {
+      await supabase.auth.updateUser({
+        data: { learning_progress: updatedState }
+      });
+    }
+  };
+
   const markViewed = (chapterId: number) => {
+    if (!isAuthenticated) return;
+
     setState(prev => {
-      // Handle recently viewed
       const newRecentlyViewed = [
         chapterId, 
         ...prev.recentlyViewed.filter(id => id !== chapterId)
-      ].slice(0, 5); // Keep last 5
+      ].slice(0, 5); 
 
-      // Handle streak
       const todayStr = new Date().toDateString();
-      let newStreak = prev.readingStreak;
-      let newBestStreak = prev.bestStreak;
+      let newStreak = prev.readingStreak || 0;
+      let newBestStreak = prev.bestStreak || 0;
 
       if (prev.lastActiveDate !== todayStr) {
         const lastActive = prev.lastActiveDate ? new Date(prev.lastActiveDate) : null;
@@ -102,12 +119,14 @@ export function useLearning() {
         lastActiveDate: todayStr,
       };
 
-      localStorage.setItem("gita-learning-state", JSON.stringify(updated));
+      syncToSupabase(updated);
       return updated;
     });
   };
 
   const markCompleted = (chapterId: number) => {
+    if (!isAuthenticated) return;
+
     setState(prev => {
       if (prev.completedChapters.includes(chapterId)) return prev;
       
@@ -116,7 +135,7 @@ export function useLearning() {
         completedChapters: [...prev.completedChapters, chapterId]
       };
       
-      localStorage.setItem("gita-learning-state", JSON.stringify(updated));
+      syncToSupabase(updated);
       return updated;
     });
   };
@@ -126,6 +145,7 @@ export function useLearning() {
   return { 
     ...state, 
     isLoaded,
+    isAuthenticated,
     markViewed, 
     markCompleted, 
     isCompleted 

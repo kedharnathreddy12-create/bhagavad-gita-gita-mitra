@@ -3,9 +3,9 @@ import { supabase } from '@/lib/supabase';
 
 export async function POST(req: Request) {
   try {
-    const { name, email, message } = await req.json();
+    const { name, contactInfo, message } = await req.json();
 
-    if (!name || !email || !message) {
+    if (!name || !contactInfo || !message) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
         {
           id: Date.now().toString(),
           name,
-          email,
+          email: contactInfo,
           message,
           date: new Date().toISOString(),
           read: false

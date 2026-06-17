@@ -7,12 +7,26 @@ import { useLearning } from "@/hooks/useLearning";
 import { chapters } from "@/data/chapters";
 
 export default function MyLearningPage() {
-  const { completedChapters, readingStreak, bestStreak, recentlyViewed, isLoaded } = useLearning();
+  const { completedChapters, readingStreak, bestStreak, recentlyViewed, isLoaded, isAuthenticated } = useLearning();
 
   if (!isLoaded) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
         <div className="w-12 h-12 border-4 border-accent-gold border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-24 sm:py-32 text-center">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">లాగిన్ అవసరం (Login Required)</h1>
+        <p className="text-text-secondary text-lg mb-8 max-w-md mx-auto">
+          మీ పఠన ప్రగతిని చూడటానికి దయచేసి లాగిన్ అవ్వండి. (Please login to track your reading progress.)
+        </p>
+        <Link href="/login" className="inline-block bg-accent-gold text-primary-dark font-bold px-8 py-3 rounded-xl hover:bg-accent-saffron transition-colors">
+          లాగిన్ అవ్వండి (Login)
+        </Link>
       </div>
     );
   }

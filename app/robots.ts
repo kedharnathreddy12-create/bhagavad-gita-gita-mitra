@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/api/',
     },
-    sitemap: 'https://krishna-bhagavad-gita.vercel.app/sitemap.xml',
+    sitemap: 'https://gitamitra.vercel.app/sitemap.xml',
   }
 }

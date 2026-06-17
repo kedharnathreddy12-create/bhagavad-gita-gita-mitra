@@ -4,7 +4,7 @@ import { krishnaStories } from '@/data/krishna-stories'
 import { gitaStories } from '@/data/gita-stories'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://krishna-bhagavad-gita.vercel.app' // Replace with actual domain
+  const baseUrl = 'https://gitamitra.vercel.app'
 
   // Static routes
   const routes = [
